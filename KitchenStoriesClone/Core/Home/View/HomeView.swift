@@ -10,17 +10,20 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @State var selectedTab: Tab = .Foryou
+   
     @Namespace var animation
 
+    
+    @State private var vm = HomeViewModel()
+    
     var width = UIScreen.main.bounds.width
 
     var body: some View {
         NavigationStack {
             VStack {
-                SelectionTabView(selectedTab: $selectedTab, animation: animation)
+                SelectionTabView(selectedTab: $vm.selectedTab, animation: animation)
 
-                if selectedTab == .Choice {
+                if vm.selectedTab == .Choice {
 
                     ScrollView(showsIndicators: false) {
                         choiceTabView
@@ -43,21 +46,21 @@ struct HomeView: View {
 extension HomeView {
     var choiceTabView: some View {
         VStack {
-            ChoiceSectionBannerRecipeView(recipe: RecipeService.shared.recipes[12])
+            ChoiceSectionBannerRecipeView(recipe: vm.bannerRecipe)
             Group {
                 
-                LatesRecipesView(latesRecipes: RecipeService.shared.getSomeRecipe(startPoint: 1, endPoint: 6), sectionName: ConstantStrings.Choice.ourLatesRecipes.rawValue, seeAll: ConstantStrings.Choice.seeAll.rawValue)
+                LatesRecipesView(latesRecipes: vm.latesRecipes, sectionName: ConstantStrings.Choice.ourLatesRecipes.rawValue, seeAll: ConstantStrings.Choice.seeAll.rawValue)
               
-                BestRecipesFromView(users: RecipeService.shared.getAllUser(), sectionName: ConstantStrings.Choice.exploreBestRecipesFrom.rawValue)
+                BestRecipesFromView(users: vm.bestRecipesFromView, sectionName: ConstantStrings.Choice.exploreBestRecipesFrom.rawValue)
                     
                 
-                FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[4], sectionName: ConstantStrings.Choice.todayRecipes.rawValue)
+                FullWidthRecipeView(todayRecipe: vm.todayRecipe, sectionName: ConstantStrings.Choice.todayRecipes.rawValue)
                     
                 
-                FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[3], sectionName: ConstantStrings.Choice.whatToCookToNight.rawValue)
+                FullWidthRecipeView(todayRecipe: vm.whatToCookToNightRecipe, sectionName: ConstantStrings.Choice.whatToCookToNight.rawValue)
                    
                 
-                QuickforYouSectionView(quickForYouRecipes: RecipeService.shared.getSomeRecipe(startPoint: 6, endPoint: 20), sectionName: ConstantStrings.Choice.quickForYou.rawValue)
+                QuickforYouSectionView(quickForYouRecipes: vm.quickForYouRecipes , sectionName: ConstantStrings.Choice.quickForYou.rawValue)
                     .padding(.bottom, 20)
                     
             }.padding(.horizontal, 10)
@@ -67,17 +70,12 @@ extension HomeView {
     var forYouTabView: some View
     {
         VStack {
-            CookThisTodaySectionView(sectionName: ConstantStrings.ForYou.forYou.rawValue, editButtonName: ConstantStrings.ForYou.edit.rawValue, sectionSubtitle1: ConstantStrings.ForYou.cookThisToday.rawValue, sectionSubtitle2: ConstantStrings.ForYou.recipeofTheDay.rawValue)
+            CookThisTodaySectionView(recipe: vm.cookThisTodayRecipe,sectionName: ConstantStrings.ForYou.forYou.rawValue, editButtonName: ConstantStrings.ForYou.edit.rawValue, sectionSubtitle1: ConstantStrings.ForYou.cookThisToday.rawValue, sectionSubtitle2: ConstantStrings.ForYou.recipeofTheDay.rawValue)
                 .padding(.vertical, 30)
 
-            InSeasonSectionView(recipe: RecipeService.shared.getSomeRecipe(startPoint: 10, endPoint: 20),sectionTitle: ConstantStrings.ForYou.inSeason.rawValue, sectionSubtitle: ConstantStrings.ForYou.basedOnSeasonalIngredients.rawValue)
+            InSeasonSectionView(recipe: vm.inSeasonSectionRecipes,sectionTitle: ConstantStrings.ForYou.inSeason.rawValue, sectionSubtitle: ConstantStrings.ForYou.basedOnSeasonalIngredients.rawValue)
                 .padding(.bottom, 20)
         }.padding(.horizontal,10)
     }
 }
 
-#Preview {
-
-    HomeView()
-
-}

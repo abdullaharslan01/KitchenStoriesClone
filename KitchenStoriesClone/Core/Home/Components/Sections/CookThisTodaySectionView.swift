@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CookThisTodaySectionView: View {
 
-    var recipe: Recipe = RecipeService.shared.recipes[1]
+    let recipe: Recipe 
     
     var sectionName: String
     var editButtonName: String
