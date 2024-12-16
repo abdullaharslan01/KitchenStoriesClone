@@ -11,24 +11,13 @@ struct RecipesRowsView: View {
     var recipe: Recipe
 
     var body: some View {
-        VStack {
 
-            RecipesRowsView(recipe: recipe)
-            ContentInfoView(recipe: recipe)
+        VStack(alignment: .leading, spacing: 8) {
 
-        }
-    }
-}
-
-struct ContentInfoView: View {
-    let recipe: Recipe
-    var body: some View {
-        VStack(spacing: 8) {
-
+            RecipeImageWithInfo(recipe: recipe, size: .init(width: 300, height: 250))
+            
             Text(recipe.name)
                 .font(.subheadline)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 6)
 
             HStack {
                 Image(recipe.userProfileUrl)
@@ -36,9 +25,14 @@ struct ContentInfoView: View {
                     .scaledToFill()
                     .frame(width: 40, height: 40)
                     .clipShape(.circle)
-                Text(recipe.userFullName).frame(maxWidth: .infinity, alignment: .leading)
+                Text(recipe.userFullName)
             }
 
         }
+
     }
+}
+
+#Preview {
+    RecipesRowsView(recipe: RecipeService.shared.recipes[0])
 }

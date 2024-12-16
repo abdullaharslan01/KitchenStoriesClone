@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChoiceSection1View: View {
+struct ChoiceSectionBannerRecipeView: View {
 
     let recipe: Recipe
 
@@ -46,4 +46,8 @@ struct ChoiceSection1View: View {
 
         }
     }
+}
+
+#Preview {
+    ChoiceSectionBannerRecipeView(recipe: RecipeService.shared.recipes[0])
 }

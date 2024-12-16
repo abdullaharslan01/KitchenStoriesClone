@@ -11,17 +11,20 @@ import SwiftUI
 struct LatesRecipesView: View {
 
     var latesRecipes: [Recipe]
+        
+    var sectionName: String
 
+    var seeAll: String
     var body: some View {
         VStack {
 
             HStack {
-                Text("Our Latest Recipes")
+                Text(sectionName)
                     .font(.title3)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("See all")
+                Text(seeAll)
                     .font(.subheadline)
                     .foregroundStyle(.primaryColor0)
             }
@@ -31,7 +34,7 @@ struct LatesRecipesView: View {
                     ForEach(latesRecipes) { recipe in
                         RecipesRowsView(recipe: recipe)
                     }
-                }.padding()
+                }
             }
         }
     }

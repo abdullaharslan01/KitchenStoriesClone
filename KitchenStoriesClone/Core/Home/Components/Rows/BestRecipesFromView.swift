@@ -10,10 +10,11 @@ import SwiftUI
 struct BestRecipesFromView: View {
     
     var users:[User]
+    var sectionName: String
     
     var body: some View {
         VStack {
-            Text("Explore the best recipes from")
+            Text(sectionName)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity, alignment: .leading)

@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+
 struct HomeView: View {
 
-    @State var selectedTab: Tab = .Choice
+    @State var selectedTab: Tab = .Foryou
     @Namespace var animation
 
     var width = UIScreen.main.bounds.width
@@ -21,33 +22,15 @@ struct HomeView: View {
 
                 if selectedTab == .Choice {
 
-                    ScrollView {
-                        VStack {
-                            ChoiceSection1View(recipe: RecipeService.shared.recipes[0])
+                    ScrollView(showsIndicators: false) {
+                        choiceTabView
 
-                            LatesRecipesView(latesRecipes: RecipeService.shared.getSomeRecipe(startPoint: 1, endPoint: 5))
-                                .padding(.horizontal)
-
-                            BestRecipesFromView(users: RecipeService.shared.getAllUser())
-                                .padding(.horizontal)
-
-                            FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[4], sectionName: "Today's Recipes")
-                                .padding(.horizontal)
-                                .padding(.top)
-
-                            FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[3], sectionName: "What to Cook Tonight")
-                                .padding(.horizontal)
-                                .padding(.top)
-
-                            QuickforYouView(quickForYouRecipes: RecipeService.shared.getSomeRecipe(startPoint: 6, endPoint: 15))
-                                .padding(.horizontal)
-                        }
-                    }
+                    }.transition(.move(edge: .leading))
 
                 } else {
-                    ScrollView {
-                        VStack {}
-                    }
+                    ScrollView(showsIndicators: false) {
+                        forYouTabView
+                    }.transition(.move(edge: .trailing))
                 }
 
             }
@@ -57,50 +40,39 @@ struct HomeView: View {
     }
 }
 
-struct QuickforYouView: View {
-
-    var quickForYouRecipes: [Recipe]
-    var body: some View {
+extension HomeView {
+    var choiceTabView: some View {
         VStack {
-            Text("Quick For You")
-                .font(.title3)
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 12) {
-                    ForEach(quickForYouRecipes) { recipe in
-                        RecipeCardNameRowView(recipe: recipe)
-                    }
-                }
-
-            }
+            ChoiceSectionBannerRecipeView(recipe: RecipeService.shared.recipes[12])
+            Group {
+                
+                LatesRecipesView(latesRecipes: RecipeService.shared.getSomeRecipe(startPoint: 1, endPoint: 6), sectionName: ConstantStrings.Choice.ourLatesRecipes.rawValue, seeAll: ConstantStrings.Choice.seeAll.rawValue)
+              
+                BestRecipesFromView(users: RecipeService.shared.getAllUser(), sectionName: ConstantStrings.Choice.exploreBestRecipesFrom.rawValue)
+                    
+                
+                FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[4], sectionName: ConstantStrings.Choice.todayRecipes.rawValue)
+                    
+                
+                FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[3], sectionName: ConstantStrings.Choice.whatToCookToNight.rawValue)
+                   
+                
+                QuickforYouSectionView(quickForYouRecipes: RecipeService.shared.getSomeRecipe(startPoint: 6, endPoint: 20), sectionName: ConstantStrings.Choice.quickForYou.rawValue)
+                    .padding(.bottom, 20)
+                    
+            }.padding(.horizontal, 10)
+                .padding(.top, 15)
         }
     }
-}
+    var forYouTabView: some View
+    {
+        VStack {
+            CookThisTodaySectionView(sectionName: ConstantStrings.ForYou.forYou.rawValue, editButtonName: ConstantStrings.ForYou.edit.rawValue, sectionSubtitle1: ConstantStrings.ForYou.cookThisToday.rawValue, sectionSubtitle2: ConstantStrings.ForYou.recipeofTheDay.rawValue)
+                .padding(.vertical, 30)
 
-struct RecipeCardNameRowView: View {
-    var recipe: Recipe
-
-    var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            Image(recipe.imgUrl)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 230, height: 260)
-                .clipShape(.rect(cornerRadius: 14))
-            
-            RoundedRectangle(cornerRadius: 14)
-                .fill(.blackColor0.opacity(0.15))
-            
-            Text(recipe.name)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundStyle(.whiteColor0)
-                .frame(width: 200, alignment: .leading)
-                .padding(.horizontal,14)
-                .padding(.bottom, 14)
-        }
+            InSeasonSectionView(recipe: RecipeService.shared.getSomeRecipe(startPoint: 10, endPoint: 20),sectionTitle: ConstantStrings.ForYou.inSeason.rawValue, sectionSubtitle: ConstantStrings.ForYou.basedOnSeasonalIngredients.rawValue)
+                .padding(.bottom, 20)
+        }.padding(.horizontal,10)
     }
 }
 
