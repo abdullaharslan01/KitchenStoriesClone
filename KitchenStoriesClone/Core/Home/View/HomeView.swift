@@ -27,6 +27,20 @@ struct HomeView: View {
 
                             LatesRecipesView(latesRecipes: RecipeService.shared.getSomeRecipe(startPoint: 1, endPoint: 5))
                                 .padding(.horizontal)
+
+                            BestRecipesFromView(users: RecipeService.shared.getAllUser())
+                                .padding(.horizontal)
+
+                            FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[4], sectionName: "Today's Recipes")
+                                .padding(.horizontal)
+                                .padding(.top)
+
+                            FullWidthRecipeView(todayRecipe: RecipeService.shared.recipes[3], sectionName: "What to Cook Tonight")
+                                .padding(.horizontal)
+                                .padding(.top)
+
+                            QuickforYouView(quickForYouRecipes: RecipeService.shared.getSomeRecipe(startPoint: 6, endPoint: 15))
+                                .padding(.horizontal)
                         }
                     }
 
@@ -43,82 +57,52 @@ struct HomeView: View {
     }
 }
 
+struct QuickforYouView: View {
 
-struct LatesRecipesView: View {
-
-    var latesRecipes: [Recipe]
-
+    var quickForYouRecipes: [Recipe]
     var body: some View {
         VStack {
+            Text("Quick For You")
+                .font(.title3)
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-            HStack {
-                Text("Our Latest Recipes")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                Text("See all")
-                    .font(.subheadline)
-                    .foregroundStyle(.primaryColor0)
-            }
-            
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 16) {
-                    ForEach(latesRecipes) { recipe in
-                        RecipesRowsView(recipe: recipe)
+                LazyHStack(spacing: 12) {
+                    ForEach(quickForYouRecipes) { recipe in
+                        RecipeCardNameRowView(recipe: recipe)
                     }
-                }.padding()
-            }
-        }
-    }
-}
-
-
-struct RecipesRowsView: View {
-    var recipe: Recipe
-    
-    var body: some View {
-        VStack {
-            ZStack {
-                Image(recipe.imgUrl)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 230, height: 260)
-                    .clipShape(.rect(cornerRadius: 16))
-                
-               VStack {
-                    Text(recipe.duration)
-                        .font(.footnote)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 8)
-                        .background(.durationBadge, in: .capsule)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.all, 12)
-                    
-                    Spacer()
-                    
-                    HStack {
-                        Image(systemName: "heart")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 14, height: 14)
-                        
-                        Text(recipe.totalLikes)
-                            .font(.subheadline)
-                    }.foregroundStyle(.blackColor0.opacity(0.7))
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 8)
-                        .background(Color.whiteColor0, in: .capsule)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.all, 12)
-                    
                 }
+
             }
         }
     }
 }
 
+struct RecipeCardNameRowView: View {
+    var recipe: Recipe
 
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            Image(recipe.imgUrl)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 230, height: 260)
+                .clipShape(.rect(cornerRadius: 14))
+            
+            RoundedRectangle(cornerRadius: 14)
+                .fill(.blackColor0.opacity(0.15))
+            
+            Text(recipe.name)
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundStyle(.whiteColor0)
+                .frame(width: 200, alignment: .leading)
+                .padding(.horizontal,14)
+                .padding(.bottom, 14)
+        }
+    }
+}
 
 #Preview {
 

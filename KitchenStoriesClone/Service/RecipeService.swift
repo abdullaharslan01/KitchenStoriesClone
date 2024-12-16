@@ -9,10 +9,10 @@ import Foundation
 
 class RecipeService {
     static let shared = RecipeService()
-    private init(){ }
+    private init() {}
     
+    let recipes: [Recipe] = [
     
-     let recipes: [Recipe] = [
         Recipe(
            
             name: "Pancakes with Syrup",
@@ -21,6 +21,16 @@ class RecipeService {
             totalLikes: "2.1K",
             duration: "15min",
             userFullName: "John Smith",
+            userProfileUrl: "profile2"
+        ),
+        
+        Recipe(
+            name: "Lahmacun",
+            imgUrl: "lahmacun",
+            type: "Traditional Dish",
+            totalLikes: "4.5K",
+            duration: "25min",
+            userFullName: "Abdullah Arslan",
             userProfileUrl: "profile1"
         ),
         Recipe(
@@ -29,8 +39,8 @@ class RecipeService {
             type: "Dinner",
             totalLikes: "3.4K",
             duration: "40min",
-            userFullName: "David Brown",
-            userProfileUrl: "profile2"
+            userFullName: "Mert Avcı",
+            userProfileUrl: "profile4"
         ),
         Recipe(
             name: "Steak Food",
@@ -38,8 +48,8 @@ class RecipeService {
             type: "Lunch",
             totalLikes: "4.5K",
             duration: "1h",
-            userFullName: "Michael Green",
-            userProfileUrl: "profile4"
+            userFullName: "Eren Şaşmaz",
+            userProfileUrl: "profile2"
         ),
         Recipe(
             name: "Salad",
@@ -47,8 +57,8 @@ class RecipeService {
             type: "Vegan",
             totalLikes: "1.8K",
             duration: "10min",
-            userFullName: "Emily White",
-            userProfileUrl: "profile3"
+            userFullName: "İbrahim Ümit Taş",
+            userProfileUrl: "profile8"
         ),
         Recipe(
             name: "Pastry and Boiled Egg",
@@ -197,8 +207,8 @@ class RecipeService {
             type: "Healthy Meal",
             totalLikes: "3.1K",
             duration: "15min",
-            userFullName: "Emily White",
-            userProfileUrl: "profile3"
+            userFullName: "Abdullah Arslan",
+            userProfileUrl: "profile1"
         ),
         Recipe(
             name: "Chocolate Croissant with Coffee",
@@ -232,8 +242,8 @@ class RecipeService {
             type: "Breakfast",
             totalLikes: "1.8K",
             duration: "12min",
-            userFullName: "David Brown",
-            userProfileUrl: "profile2"
+            userFullName: "Emre Karaman",
+            userProfileUrl: "profile7"
         ),
         Recipe(
             name: "Steamed Lobster Tails",
@@ -267,8 +277,8 @@ class RecipeService {
             type: "Dinner",
             totalLikes: "4.7K",
             duration: "30min",
-            userFullName: "Olivia Black",
-            userProfileUrl: "profile6"
+            userFullName: "İbrahim Ümit Taş",
+            userProfileUrl: "profile8"
         ),
         Recipe(
             name: "Steak and Potato Plate",
@@ -294,8 +304,8 @@ class RecipeService {
             type: "Dinner",
             totalLikes: "4.5K",
             duration: "35min",
-            userFullName: "Michael Green",
-            userProfileUrl: "profile4"
+            userFullName: "Eren Şaşmaz",
+            userProfileUrl: "profile2"
         ),
         Recipe(
             name: "Grilled Veggie Salad",
@@ -307,14 +317,28 @@ class RecipeService {
             userProfileUrl: "profile3"
         )
     ]
+    let users: [User] = [
+        User(userFullName: "Abdullah Arslan", userProfileUrl: "profile1"),
+        User(userFullName: "Eren Şaşmaz", userProfileUrl: "profile2"),
+        User(userFullName: "Mert Avcı", userProfileUrl: "profile4"),
+        User(userFullName: "Emily White", userProfileUrl: "profile3"),
+        User(userFullName: "İbrahim Ümit Taş", userProfileUrl: "profile8"),
+        User(userFullName: "Sophia Grey", userProfileUrl: "profile5"),
+        User(userFullName: "Olivia Black", userProfileUrl: "profile6"),
+        User(userFullName: "Emre Karaman", userProfileUrl: "profile7"),
+    ]
     
-     func getSomeRecipe(startPoint:Int, endPoint: Int) -> [Recipe] {
+    func getSomeRecipe(startPoint: Int, endPoint: Int) -> [Recipe] {
         var recipes = [Recipe]()
         
-        for i in startPoint ..< endPoint + 1{
+        for i in startPoint ..< endPoint + 1 {
             recipes.append(self.recipes[i])
         }
         
         return recipes
+    }
+    
+    func getAllUser()->[User] {
+        return users
     }
 }
